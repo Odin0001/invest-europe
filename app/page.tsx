@@ -214,10 +214,7 @@ export default function LandingPage() {
           <div className="grid gap-8 md:grid-cols-4">
             <div className="col-span-2">
               <div className="flex items-center gap-2 mb-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900">
-                  <TrendingUp className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-xl font-bold text-slate-900">InvestPro</span>
+                <Link href="/"><Image src={logo.src} alt="InvestPro Logo" width={100} height={50} className="" /></Link>
               </div>
               <p className="text-sm text-slate-600 max-w-sm">{t("buildingWealth")}</p>
             </div>
@@ -259,7 +256,7 @@ export default function LandingPage() {
           </div>
           <div className="mt-12 border-t pt-8 text-center text-sm text-slate-600">
             <p>
-              &copy; {new Date().getFullYear()} InvestPro. {t("allRightsReserved")}
+              &copy; {new Date().getFullYear()} Invest Europe {t("allRightsReserved")}
             </p>
           </div>
         </div>
