@@ -13,7 +13,7 @@ export function ProfileClient({ profile, user }: { profile: any; user: any }) {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900">{t("profile")}</h1>
         <p className="text-slate-600 mt-1">{t("manageAccountInformation")}</p>
-        <p className="text-slate-600 mt-1">{t("contact")} <span className="font-bold">asd@gmail.com</span></p>
+        <p className="text-slate-600 mt-1">{t("contact")} <span className="font-bold">investeuropee@gmail.com</span></p>
       </div>
 
       <div className="grid gap-6 max-w-2xl">

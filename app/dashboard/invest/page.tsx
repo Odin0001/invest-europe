@@ -26,6 +26,7 @@ export default function InvestPage() {
   // Form state
   const [fullName, setFullName] = useState("")
   const [walletId, setWalletId] = useState("")
+  const [email, setEmail] = useState("")
   const [screenshot, setScreenshot] = useState<File | null>(null)
   const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null)
 
@@ -46,6 +47,7 @@ export default function InvestPage() {
       setUser(authUser)
       setProfile(profileData)
       setFullName(profileData?.full_name || "")
+      setEmail(profileData?.email || authUser.email || "")
       setWalletId(profileData?.wallet_address || "")
       setLoading(false)
     }
@@ -67,7 +69,7 @@ export default function InvestPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!screenshot || !fullName || !walletId) return
+    if (!screenshot || !fullName || !email || !walletId) return
 
     setSubmitting(true)
     try {
@@ -91,6 +93,7 @@ export default function InvestPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fullName,
+          email,
           walletId,
           paymentScreenshot: screenshotUrl,
           userId: user?.id,
@@ -101,6 +104,7 @@ export default function InvestPage() {
         setSubmitted(true)
         // Reset form
         setFullName(profile?.full_name || "")
+        setEmail(profile?.email || user?.email || "")
         setWalletId(profile?.wallet_address || "")
         setScreenshot(null)
         setScreenshotPreview(null)
@@ -150,7 +154,7 @@ export default function InvestPage() {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center pb-3 border-b">
                     <span className="text-slate-600">{t("dailyReturn")}</span>
-                    <span className="font-semibold text-slate-900">{t("upTo5Percent")}</span>
+                    <span className="font-semibold text-slate-900">{t("upTo3Percent")}</span>
                   </div>
                   <div className="flex justify-between items-center pb-3 border-b">
                     <span className="text-slate-600">{t("investmentPeriod")}</span>
@@ -193,15 +197,15 @@ export default function InvestPage() {
                 <CardContent className="space-y-2 text-sm text-green-900">
                   <div className="flex justify-between">
                     <span>{t("investment100")}</span>
-                    <span className="font-semibold">{t("upTo5Day")}</span>
+                    <span className="font-semibold">{t("upTo3Day")}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>{t("investment1000")}</span>
-                    <span className="font-semibold">{t("upTo50Day")}</span>
+                    <span className="font-semibold">{t("upTo30Day")}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>{t("investment10000")}</span>
-                    <span className="font-semibold">{t("upTo500Day")}</span>
+                    <span className="font-semibold">{t("upTo300Day")}</span>
                   </div>
                   <div className="pt-3 border-t border-green-300">
                     <p className="font-semibold">{t("estimatedTotal")}</p>
@@ -234,6 +238,17 @@ export default function InvestPage() {
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           placeholder={t("enterFullName")}
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="email">{t("email")}</Label>
+                        <Input
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder={t("enterEmail")}
                           required
                         />
                       </div>

@@ -27,8 +27,8 @@ export function AdminNav() {
   const pathname = usePathname()
 
   return (
-    <aside className="hidden md:flex w-64 flex-col border-r bg-white p-6">
-      <nav className="space-y-2">
+    <aside className="flex md:w-64 w-full flex-col border-r bg-white p-6">
+      <nav className="space-y-2 md:block flex flex-col">
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href

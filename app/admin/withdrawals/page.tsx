@@ -48,10 +48,10 @@ export default async function AdminWithdrawalsPage() {
         </div>
       </header>
 
-      <div className="flex flex-1">
+      <div className="flex md:flex-row flex-col flex-1">
         <AdminNav />
-        <main className="flex-1 p-6 md:p-8 bg-slate-50">
-          <div className="mb-8">
+        <main className="flex-1 md:p-8 bg-slate-50">
+          <div className="mb-8 p-6">
             <h1 className="text-3xl font-bold text-slate-900">Withdrawal Management</h1>
             <p className="text-slate-600 mt-1">Process withdrawal requests</p>
           </div>
@@ -103,9 +103,9 @@ export default async function AdminWithdrawalsPage() {
                           </div>
                         </div>
                         <div className="space-y-2 pt-4 border-t">
-                          <div className="flex justify-between text-sm">
+                          <div className="flex justify-between text-sm text-wrap">
                             <span className="text-slate-600">Wallet Address:</span>
-                            <span className="font-mono text-slate-900">{withdrawal.wallet_address}</span>
+                            <span className="font-mono md:text-sm text-[9px] text-slate-900">{withdrawal.wallet_address}</span>
                           </div>
                           {withdrawal.admin_note && (
                             <div className="flex justify-between text-sm">

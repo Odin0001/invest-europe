@@ -11,7 +11,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadataBase = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000")
 
 export const metadata: Metadata = {
-  title: "Investment Website",
+  title: "Invest Europe",
   description: "Start Investing Today with Our User-Friendly Platform",
   viewport: "width=device-width, initial-scale=1",
   keywords: ["investment", "crypto", "investing", "finance", "wallet", "invest europe"],
@@ -38,20 +38,20 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
   ],
   openGraph: {
-    title: "Investment Website",
+    title: "Invest Europe",
     description: "Start Investing Today with Our User-Friendly Platform",
-    siteName: "Investment Website",
+    siteName: "Invest Europe",
     images: [
       {
         url: "/icon.svg",
-        alt: "Investment Website",
+        alt: "Invest Europe",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Investment Website",
+    title: "Invest Europe",
     description: "Start Investing Today with Our User-Friendly Platform",
     images: ["/icon.svg"],
   },

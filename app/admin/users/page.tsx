@@ -339,7 +339,7 @@ export default function AdminUsersPage() {
         </div>
       </header>
 
-      <div className="flex flex-1">
+      <div className="flex md:flex-row flex-col flex-1">
         <AdminNav />
         <main className="flex-1 p-6 md:p-8 bg-slate-50">
           <div className="mb-8">

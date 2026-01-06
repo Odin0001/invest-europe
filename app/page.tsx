@@ -71,7 +71,7 @@ export default function LandingPage() {
             </div>
             <div className="mt-12 grid grid-cols-3 gap-6 md:gap-12">
               <div className="flex flex-col items-center">
-                <div className="text-3xl font-bold text-slate-900 md:text-4xl">{t("upTo5Percent")}</div>
+                <div className="text-3xl font-bold text-slate-900 md:text-4xl">{t("upTo3Percent")}</div>
                 <div className="text-sm text-slate-600 md:text-base">{t("dailyReturns")}</div>
               </div>
               <div className="flex flex-col items-center">
