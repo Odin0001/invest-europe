@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+
+export const dynamic = "force-dynamic"
+
 import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 import { ProfileClient } from "@/components/dashboard/profile-client"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"

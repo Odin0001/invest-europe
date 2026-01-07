@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+
+export const dynamic = "force-dynamic"
+
 import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 import { ArrowUpRight, ArrowDownRight, TrendingUp } from "lucide-react"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"

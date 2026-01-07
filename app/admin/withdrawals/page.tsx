@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+
+export const dynamic = "force-dynamic"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { AdminNav } from "@/components/admin/admin-nav"
 import { LogoutButton } from "@/components/dashboard/logout-button"
