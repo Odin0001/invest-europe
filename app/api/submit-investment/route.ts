@@ -10,9 +10,6 @@ export async function POST(request: NextRequest) {
     }
 
     const transporter = nodemailer.createTransport({
-      // host: process.env.SMTP_HOST || "smtp.gmail.com",
-      // port: Number.parseInt(process.env.SMTP_PORT || "587"),
-      // secure: process.env.SMTP_SECURE === "true",
       service: "gmail",
       auth: {
         user: process.env.EMAIL_FROM,
@@ -20,8 +17,27 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    // Basic env validation
     const adminEmail = process.env.ADMIN_EMAIL
     const fromEmail = process.env.EMAIL_FROM
+
+    if (!adminEmail) {
+      console.error("[v0] ADMIN_EMAIL environment variable is not set")
+      return NextResponse.json({ error: "Email configuration error: ADMIN_EMAIL not set" }, { status: 500 })
+    }
+
+    if (!fromEmail || !process.env.SMTP_PASSWORD) {
+      console.error("[v0] EMAIL_FROM or SMTP_PASSWORD environment variable is not set")
+      return NextResponse.json({ error: "Email configuration error: SMTP credentials missing" }, { status: 500 })
+    }
+
+    // Verify transporter to fail fast with a helpful message
+    try {
+      await transporter.verify()
+    } catch (verifyError) {
+      console.error("[v0] SMTP verification failed:", verifyError)
+      return NextResponse.json({ error: "Email service verification failed" }, { status: 500 })
+    }
 
     if (!adminEmail) {
       console.error("[v0] ADMIN_EMAIL environment variable is not set")
