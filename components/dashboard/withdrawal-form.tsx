@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, CheckCircle2 } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
@@ -24,6 +24,9 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  // Editable wallet state initialized from prop and kept in sync
+  const [wallet, setWallet] = useState(walletAddress)
+  useEffect(() => setWallet(walletAddress), [walletAddress])
   const { t } = useLanguage()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,14 +38,14 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
     const withdrawalAmount = Number(amount)
 
     // Validation
-    if (!walletAddress) {
+    if (!wallet) {
       setError("No wallet address found. Please contact support to set up your wallet.")
       setIsLoading(false)
       return
     }
 
-    if (withdrawalAmount < 10) {
-      setError("Minimum withdrawal amount is $10")
+    if (withdrawalAmount < 5) {
+      setError("Minimum withdrawal amount is $5")
       setIsLoading(false)
       return
     }
@@ -60,7 +63,7 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
       const { error: withdrawalError } = await supabase.from("withdrawals").insert({
         user_id: userId,
         amount: withdrawalAmount,
-        wallet_address: walletAddress,
+        wallet_address: wallet,
         status: "pending",
       })
 
@@ -103,9 +106,9 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
         <Input
           id="amount"
           type="number"
-          min="10"
+          min="5"
           step="0.01"
-          placeholder="10.00"
+          placeholder="5.00"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           required
@@ -116,7 +119,7 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
 
       <div className="space-y-2">
         <Label htmlFor="wallet">{t("walletAddress")}</Label>
-        <Input id="wallet" value={walletAddress} disabled className="font-mono text-sm" />
+        <Input id="wallet" value={wallet} onChange={(e) => setWallet(e.target.value)} className="font-mono text-sm" />
         <p className="text-sm text-slate-600">{t("funds")}</p>
       </div>
 
@@ -133,7 +136,7 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
         </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading || success || !amount || Number(amount) < 10}>
+      <Button type="submit" className="w-full" disabled={isLoading || success || !amount || Number(amount) < 5}>
         {isLoading ? "Submitting Request..." : success ? "Request Submitted!" : t("requestWithdrawalButton")}
       </Button>
 

@@ -20,7 +20,7 @@ export default async function ProfilePage() {
     <div className="flex min-h-screen flex-col">
       <DashboardHeader userName={profile?.full_name || user.email || undefined} />
 
-      <div className="flex flex-1">
+      <div className="flex md:flex-row flex-col flex-1">
         <DashboardNav />
         <main className="flex-1 p-6 md:p-8 bg-slate-50">
           <ProfileClient profile={profile} user={user} />
