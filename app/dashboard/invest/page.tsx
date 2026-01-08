@@ -157,10 +157,6 @@ export default function InvestPage() {
                     <span className="font-semibold text-slate-900">{t("upTo3Percent")}</span>
                   </div>
                   <div className="flex justify-between items-center pb-3 border-b">
-                    <span className="text-slate-600">{t("investmentPeriod")}</span>
-                    <span className="font-semibold text-slate-900">{t("thirtyDays")}</span>
-                  </div>
-                  <div className="flex justify-between items-center pb-3 border-b">
                     <span className="text-slate-600">{t("minimumAmount")}</span>
                     <span className="font-semibold text-slate-900">{t("minimumAmount100")}</span>
                   </div>
