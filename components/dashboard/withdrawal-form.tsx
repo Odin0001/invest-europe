@@ -7,26 +7,33 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, CheckCircle2 } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface WithdrawalFormProps {
   userId: string
   currentBalance: number
-  walletAddress: string
 }
 
-export function WithdrawalForm({ userId, currentBalance, walletAddress }: WithdrawalFormProps) {
+const PAYMENT_METHODS = [
+  { value: "ERC20", label: "ERC20" },
+  { value: "TRX", label: "TRX (Tron)" },
+  { value: "SOL", label: "SOL (Solana)" },
+  { value: "USDT_BEP20", label: "USDT (BEP20)" },
+  { value: "USDT_TRC20", label: "USDT (TRC20)" },
+]
+
+export function WithdrawalForm({ userId, currentBalance }: WithdrawalFormProps) {
   const router = useRouter()
   const [amount, setAmount] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-  // Editable wallet state initialized from prop and kept in sync
-  const [wallet, setWallet] = useState(walletAddress)
-  useEffect(() => setWallet(walletAddress), [walletAddress])
+  const [paymentMethod, setPaymentMethod] = useState("")
+  const [userWalletAddress, setUserWalletAddress] = useState("")
   const { t } = useLanguage()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,8 +45,14 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
     const withdrawalAmount = Number(amount)
 
     // Validation
-    if (!wallet) {
-      setError("No wallet address found. Please contact support to set up your wallet.")
+    if (!paymentMethod) {
+      setError("Please select a payment method")
+      setIsLoading(false)
+      return
+    }
+
+    if (!userWalletAddress.trim()) {
+      setError("Please enter a wallet address")
       setIsLoading(false)
       return
     }
@@ -63,7 +76,8 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
       const { error: withdrawalError } = await supabase.from("withdrawals").insert({
         user_id: userId,
         amount: withdrawalAmount,
-        wallet_address: wallet,
+        wallet_address: userWalletAddress.trim(),
+        payment_method: paymentMethod,
         status: "pending",
       })
 
@@ -71,6 +85,8 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
 
       setSuccess(true)
       setAmount("")
+      setUserWalletAddress("")
+      setPaymentMethod("")
       setTimeout(() => {
         router.refresh()
         setSuccess(false)
@@ -102,6 +118,36 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
       )}
 
       <div className="space-y-2">
+        <Label htmlFor="paymentMethod">{t("paymentMethod")}</Label>
+        <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select payment method" />
+          </SelectTrigger>
+          <SelectContent>
+            {PAYMENT_METHODS.map((method) => (
+              <SelectItem key={method.value} value={method.value}>
+                {method.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="walletAddress">{t("walletAddress")}</Label>
+        <Input
+          id="walletAddress"
+          type="text"
+          placeholder="Enter your wallet address"
+          value={userWalletAddress}
+          onChange={(e) => setUserWalletAddress(e.target.value)}
+          disabled={isLoading || success}
+          className="font-mono text-sm"
+        />
+        <p className="text-sm text-slate-600">{t("funds")}</p>
+      </div>
+
+      <div className="space-y-2">
         <Label htmlFor="amount">{t("withdrawalAmount")}</Label>
         <Input
           id="amount"
@@ -114,16 +160,12 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
           required
           disabled={isLoading || success}
         />
-        <p className="text-sm text-slate-600">{t("minimumAvailable")} ${currentBalance.toFixed(2)}</p>
+        <p className="text-sm text-slate-600">
+          {t("minimumAvailable")} ${currentBalance.toFixed(2)}
+        </p>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="wallet">{t("walletAddress")}</Label>
-        <Input id="wallet" value={wallet} onChange={(e) => setWallet(e.target.value)} className="font-mono text-sm" />
-        <p className="text-sm text-slate-600">{t("funds")}</p>
-      </div>
-
-      {amount && Number(amount) >= 10 && (
+      {amount && Number(amount) >= 5 && (
         <div className="rounded-lg bg-slate-50 p-4 space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-slate-600">{t("withdrawalAmount")}</span>
@@ -136,13 +178,15 @@ export function WithdrawalForm({ userId, currentBalance, walletAddress }: Withdr
         </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading || success || !amount || Number(amount) < 5}>
+      <Button
+        type="submit"
+        className="w-full"
+        disabled={isLoading || success || !amount || Number(amount) < 5 || !paymentMethod || !userWalletAddress.trim()}
+      >
         {isLoading ? "Submitting Request..." : success ? "Request Submitted!" : t("requestWithdrawalButton")}
       </Button>
 
-      <p className="text-xs text-slate-600 text-center">
-        {t("withdrawalNote")}
-      </p>
+      <p className="text-xs text-slate-600 text-center">{t("withdrawalNote")}</p>
     </form>
   )
 }

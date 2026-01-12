@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -20,10 +19,8 @@ export default function SignUpPage() {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
-    walletAddress: "",
     password: "",
     confirmPassword: "",
-    cryptoMethod: "USDT_TRC20",
   })
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -62,8 +59,6 @@ export default function SignUpPage() {
           emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || `${window.location.origin}/dashboard`,
           data: {
             full_name: formData.fullName,
-            wallet_address: formData.walletAddress,
-            preferred_crypto_method: formData.cryptoMethod,
           },
         },
       })
@@ -117,35 +112,6 @@ export default function SignUpPage() {
                       placeholder="you@example.com"
                       required
                       value={formData.email}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="cryptoMethod">{t("paymentMethod")}</Label>
-                    <Select
-                      value={formData.cryptoMethod}
-                      onValueChange={(value) => setFormData((prev) => ({ ...prev, cryptoMethod: value }))}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="USDT_TRC20">{t("usdtTrc20")}</SelectItem>
-                        <SelectItem value="USDT (BEP20)">{t("usdtBep20")}</SelectItem>
-                        <SelectItem value="SOL (Solana)">{t("sol")}</SelectItem>
-                        <SelectItem value="TRX (Tron)">{t("trx")}</SelectItem>
-                        <SelectItem value="ERC20">{t("erc20")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="walletAddress">{t("walletAddress")}</Label>
-                    <Input
-                      id="walletAddress"
-                      name="walletAddress"
-                      type="text"
-                      required
-                      value={formData.walletAddress}
                       onChange={handleChange}
                     />
                   </div>
