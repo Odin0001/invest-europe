@@ -382,7 +382,7 @@ export const translations = {
     dailyReturnsFeature: "عوائد يومية",
     dailyReturnsDesc: "احصل على عوائد يومية تصل إلى 3٪ على استثماراتك.",
     easeOfAccess: "سهولة المعاملات",
-    profites: "يمكنك سحب الأرباح يوميًا عند الوصول إلى الحد الأدنى للسحب",
+    profits: "يمكنك سحب الأرباح يوميًا عند الوصول إلى الحد الأدنى للسحب",
     oneMonthWarranty: "سياسة السحب لمدة شهر واحد",
     withdrawTerms: "لا يمكنك السحب من مبلغ استثمارك قبل مرور شهر واحد من الإيداع",
     securePlatform: "منصة آمنة",
