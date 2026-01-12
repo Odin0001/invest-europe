@@ -31,10 +31,10 @@ export function ProfileClient({ profile, user }: { profile: any; user: any }) {
               <Label>{t("email")}</Label>
               <Input value={user.email || ""} disabled />
             </div>
-            <div className="grid gap-2">
+            {/* <div className="grid gap-2">
               <Label>{t("walletAddress")}</Label>
               <Input value={profile?.wallet_address || ""} disabled className="font-mono text-sm" />
-            </div>
+            </div> */}
           </CardContent>
         </Card>
 

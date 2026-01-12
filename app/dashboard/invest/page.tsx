@@ -25,7 +25,7 @@ export default function InvestPage() {
 
   // Form state
   const [fullName, setFullName] = useState("")
-  const [walletId, setWalletId] = useState("")
+  // const [walletId, setWalletId] = useState("")
   const [email, setEmail] = useState("")
   const [screenshot, setScreenshot] = useState<File | null>(null)
   const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null)
@@ -48,7 +48,7 @@ export default function InvestPage() {
       setProfile(profileData)
       setFullName(profileData?.full_name || "")
       setEmail(profileData?.email || authUser.email || "")
-      setWalletId(profileData?.wallet_address || "")
+      // setWalletId(profileData?.wallet_address || "")
       setLoading(false)
     }
 
@@ -69,7 +69,7 @@ export default function InvestPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!screenshot || !fullName || !email || !walletId) return
+    if (!screenshot || !fullName || !email) return
 
     setSubmitting(true)
     try {
@@ -94,7 +94,7 @@ export default function InvestPage() {
         body: JSON.stringify({
           fullName,
           email,
-          walletId,
+          // walletId,
           paymentScreenshot: screenshotUrl,
           userId: user?.id,
         }),
@@ -105,7 +105,7 @@ export default function InvestPage() {
         // Reset form
         setFullName(profile?.full_name || "")
         setEmail(profile?.email || user?.email || "")
-        setWalletId(profile?.wallet_address || "")
+        // setWalletId(profile?.wallet_address || "")
         setScreenshot(null)
         setScreenshotPreview(null)
       } else {
@@ -249,7 +249,7 @@ export default function InvestPage() {
                         />
                       </div>
 
-                      <div className="space-y-2">
+                      {/* <div className="space-y-2">
                         <Label htmlFor="walletId">{t("walletIdLabel")}</Label>
                         <Input
                           id="walletId"
@@ -258,7 +258,7 @@ export default function InvestPage() {
                           placeholder={t("enterWalletId")}
                           required
                         />
-                      </div>
+                      </div> */}
 
                       <div className="space-y-2">
                         <Label htmlFor="screenshot">{t("paymentScreenshot")}</Label>

@@ -122,7 +122,7 @@ export function WithdrawClient({
             </CardContent>
           </Card>
 
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle>{t("yourWallet")}</CardTitle>
             </CardHeader>
@@ -132,7 +132,7 @@ export function WithdrawClient({
               </div>
               <p className="text-xs text-slate-600 mt-2">{t("thisIsYourRegisteredWallet")}</p>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </>

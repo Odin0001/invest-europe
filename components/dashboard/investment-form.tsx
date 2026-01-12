@@ -20,7 +20,7 @@ interface InvestmentFormProps {
 }
 
 export function InvestmentForm({ userId, currentBalance, lang = "en" }: InvestmentFormProps) {
-  const { t } = useTranslation(lang)
+  const { t } = useTranslation()
   const router = useRouter()
   const [amount, setAmount] = useState("")
   const [paymentMethod, setPaymentMethod] = useState("USDT_TRC20")

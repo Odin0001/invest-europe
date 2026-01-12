@@ -3,9 +3,9 @@ import nodemailer from "nodemailer"
 
 export async function POST(request: NextRequest) {
   try {
-    const { fullName, walletId, paymentScreenshot, userId } = await request.json()
+    const { fullName, paymentScreenshot, userId } = await request.json()
 
-    if (!fullName || !walletId || !paymentScreenshot) {
+    if (!fullName || !paymentScreenshot) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 })
     }
 
@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
       html: `
         <h2>New Investment Submission</h2>
         <p><strong>Full Name:</strong> ${fullName}</p>
-        <p><strong>Wallet ID:</strong> ${walletId}</p>
         <p><strong>Payment Screenshot:</strong></p>
         <img src="${paymentScreenshot}" alt="Payment Screenshot" style="max-width: 500px;" />
         <hr />
