@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight, TrendingUp, Shield, Users, Coins, CheckCircle, LineChart } from "lucide-react"
+import { ArrowRight, TrendingUp, Shield, Users, Coins, CheckCircle, LineChart, DollarSign, Calendar1 } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/lib/i18n"
 import { LanguageSwitcher } from "@/components/language-switcher"
@@ -101,6 +101,24 @@ export default function LandingPage() {
                 </div>
                 <h3 className="mb-2 text-xl font-semibold text-slate-900">{t("dailyReturns")}</h3>
                 <p className="text-slate-600">{t("dailyReturnsDesc")}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
+                  <DollarSign className="h-6 w-6 text-green-600" />
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-slate-900">{t("easeOfAccess")}</h3>
+                <p className="text-slate-600">{t("profits")}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-red-100">
+                  <Calendar1 className="h-6 w-6 text-red-600" />
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-slate-900">{t("oneMonthWarranty")}</h3>
+                <p className="text-slate-600">{t("withdrawTerms")}</p>
               </CardContent>
             </Card>
             <Card>
