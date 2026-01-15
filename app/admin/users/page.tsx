@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabase/client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { AdminNav } from "@/components/admin/admin-nav"
 import { LogoutButton } from "@/components/dashboard/logout-button"
-import { Wallet, Search, DollarSign, MoreVertical } from "lucide-react"
+import { Wallet, Search, DollarSign, MoreVertical, Mail } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/lib/i18n"
@@ -40,19 +40,31 @@ export default function AdminUsersPage() {
 
   useEffect(() => {
     async function loadData() {
-      const { data: usersData, error } = await supabase
-        .from("users")
-        .select("*")
-        .eq("is_admin", false)
-        .order("created_at", { ascending: false })
+      try {
+        const response = await fetch("/api/admin/users-with-email")
+        if (response.ok) {
+          const usersData = await response.json()
+          setUsers(usersData || [])
+          setFilteredUsers(usersData || [])
+        } else {
+          // Fallback to direct query without email
+          const { data: usersData, error } = await supabase
+            .from("users")
+            .select("*")
+            .eq("is_admin", false)
+            .order("created_at", { ascending: false })
 
-      if (error) {
+          if (error) {
+            console.error("[v0] Error fetching users:", error)
+            return
+          }
+
+          setUsers(usersData || [])
+          setFilteredUsers(usersData || [])
+        }
+      } catch (error) {
         console.error("[v0] Error fetching users:", error)
-        return
       }
-
-      setUsers(usersData || [])
-      setFilteredUsers(usersData || [])
     }
 
     loadData()
@@ -67,7 +79,8 @@ export default function AdminUsersPage() {
     const query = searchQuery.toLowerCase()
     const filtered = users.filter((user) => {
       const fullName = user.full_name?.toLowerCase() || ""
-      return fullName.includes(query)
+      const email = user.email?.toLowerCase() || ""
+      return fullName.includes(query) || email.includes(query)
     })
 
     setFilteredUsers(filtered)
@@ -125,13 +138,9 @@ export default function AdminUsersPage() {
 
       setGlobalReturnRate("")
 
-      const { data: refreshedUsers } = await supabase
-        .from("users")
-        .select("*")
-        .eq("is_admin", false)
-        .order("created_at", { ascending: false })
-
-      if (refreshedUsers) {
+      const response = await fetch("/api/admin/users-with-email")
+      if (response.ok) {
+        const refreshedUsers = await response.json()
         setUsers(refreshedUsers)
         setFilteredUsers(refreshedUsers)
       }
@@ -189,13 +198,9 @@ export default function AdminUsersPage() {
         description: `Invested amount updated to $${newAmount.toFixed(2)}`,
       })
 
-      const { data: refreshedUsers } = await supabase
-        .from("users")
-        .select("*")
-        .eq("is_admin", false)
-        .order("created_at", { ascending: false })
-
-      if (refreshedUsers) {
+      const response = await fetch("/api/admin/users-with-email")
+      if (response.ok) {
+        const refreshedUsers = await response.json()
         setUsers(refreshedUsers)
         setFilteredUsers(refreshedUsers)
       }
@@ -252,13 +257,9 @@ export default function AdminUsersPage() {
         description: `Applied ${percentage}% return ($${returnAmount.toFixed(2)})`,
       })
 
-      const { data: refreshedUsers } = await supabase
-        .from("users")
-        .select("*")
-        .eq("is_admin", false)
-        .order("created_at", { ascending: false })
-
-      if (refreshedUsers) {
+      const response = await fetch("/api/admin/users-with-email")
+      if (response.ok) {
+        const refreshedUsers = await response.json()
         setUsers(refreshedUsers)
         setFilteredUsers(refreshedUsers)
       }
@@ -306,13 +307,9 @@ export default function AdminUsersPage() {
         description: "Both invested amount and balance have been set to $0.00",
       })
 
-      const { data: refreshedUsers } = await supabase
-        .from("users")
-        .select("*")
-        .eq("is_admin", false)
-        .order("created_at", { ascending: false })
-
-      if (refreshedUsers) {
+      const response = await fetch("/api/admin/users-with-email")
+      if (response.ok) {
+        const refreshedUsers = await response.json()
         setUsers(refreshedUsers)
         setFilteredUsers(refreshedUsers)
       }
@@ -330,7 +327,9 @@ export default function AdminUsersPage() {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-          <Link href="/"><Image src={logo.src} alt="InvestPro Logo" width={60} height={50} className="" /></Link>
+          <Link href="/">
+            <Image src={logo.src || "/placeholder.svg"} alt="InvestPro Logo" width={60} height={50} className="" />
+          </Link>
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
             <span className="hidden sm:inline text-sm text-slate-600">Admin</span>
@@ -400,6 +399,7 @@ export default function AdminUsersPage() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>{t("fullName")}</TableHead>
+                      <TableHead>{t("email")}</TableHead>
                       <TableHead className="text-right">{t("balance")}</TableHead>
                       <TableHead className="text-right">{t("totalInvested")}</TableHead>
                       <TableHead className="text-right">{t("walletAddress")}</TableHead>
@@ -411,6 +411,12 @@ export default function AdminUsersPage() {
                     {filteredUsers.map((userItem) => (
                       <TableRow key={userItem.id}>
                         <TableCell className="font-medium">{userItem.full_name}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            <Mail className="h-3 w-3 text-slate-400" />
+                            {userItem.email || "N/A"}
+                          </div>
+                        </TableCell>
                         <TableCell className="text-right">${userItem.balance?.toFixed(2) || "0.00"}</TableCell>
                         <TableCell className="text-right">${userItem.total_invested?.toFixed(2) || "0.00"}</TableCell>
                         <TableCell className="text-right">
