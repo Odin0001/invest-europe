@@ -59,22 +59,13 @@ export default function SignUpPage() {
           data: {
             full_name: formData.fullName,
           },
+          emailRedirectTo: "https://www.invest-europe.net/auth/login",
         },
       })
 
       if (signUpError) throw signUpError
 
-      if (data.session) {
-        router.push("/dashboard")
-      } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
-        })
-
-        if (signInError) throw signInError
-        router.push("/dashboard")
-      }
+      router.push("/auth/sign-up-success")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : lang === "ar" ? "حدث خطأ" : "An error occurred")
     } finally {
