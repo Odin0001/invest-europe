@@ -52,8 +52,8 @@ export default function SignUpPage() {
     }
 
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || window.location.origin
-      const redirectUrl = baseUrl.endsWith("/auth/login") ? baseUrl : `${baseUrl}/auth/login`
+      const baseUrl = 'https://www/invest-europe.net'
+      const redirectUrl = `${baseUrl}/auth/login`
 
       const { error } = await supabase.auth.signUp({
         email: formData.email,
