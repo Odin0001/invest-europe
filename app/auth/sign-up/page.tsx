@@ -66,7 +66,7 @@ export default function SignUpPage() {
         // },
       })
       if (error) throw error
-      router.push("/login")
+      router.push("/auth/login")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : lang === "ar" ? "حدث خطأ" : "An error occurred")
     } finally {
