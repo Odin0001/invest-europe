@@ -490,7 +490,7 @@ export const translations = {
     paymentInformation: "معلومات الدفع",
     chooseYourPaymentMethod: "اختر طريقة الدفع وانسخ عنوان المحفظة",
     investmentDetailsTitle: "تفاصيل الاستثمار",
-    minimumAmount100: "5 دولار",
+    minimumAmount100: "10 دولار",
     selectPaymentMethodStep: "اختر طريقة الدفع: اختر طريقة الدفع بالعملات الرقمية المفضلة لديك",
     copyWalletAddressStep: "انسخ عنوان المحفظة: انسخ عنوان محفظة المنصة",
     sendPaymentStep: "أرسل الدفعة: أرسل مبلغ استثمارك إلى عنوان المحفظة",
