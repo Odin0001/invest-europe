@@ -53,20 +53,20 @@ export default function SignUpPage() {
 
     try {
       const baseUrl = process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || window.location.origin
-      const redirectUrl = baseUrl.endsWith("/dashboard") ? baseUrl : `${baseUrl}/dashboard`
+      const redirectUrl = baseUrl.endsWith("/auth/login") ? baseUrl : `${baseUrl}/auth/login`
 
       const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
-        // options: {
-        //   emailRedirectTo: redirectUrl,
-        //   data: {
-        //     full_name: formData.fullName,
-        //   },
-        // },
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            full_name: formData.fullName,
+          },
+        },
       })
       if (error) throw error
-      router.push("/auth/login")
+      router.push("/auth/sign-up-success")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : lang === "ar" ? "حدث خطأ" : "An error occurred")
     } finally {
