@@ -58,15 +58,15 @@ export default function SignUpPage() {
       const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            full_name: formData.fullName,
-          },
-        },
+        // options: {
+        //   emailRedirectTo: redirectUrl,
+        //   data: {
+        //     full_name: formData.fullName,
+        //   },
+        // },
       })
       if (error) throw error
-      router.push("/auth/sign-up-success")
+      router.push("/login")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : lang === "ar" ? "حدث خطأ" : "An error occurred")
     } finally {
