@@ -52,9 +52,6 @@ export default function SignUpPage() {
     }
 
     try {
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.invest-europe.net"
-      const redirectUrl = `${siteUrl}/auth/login`
-
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -62,13 +59,26 @@ export default function SignUpPage() {
           data: {
             full_name: formData.fullName,
           },
-          emailRedirectTo: redirectUrl,
         },
       })
 
       if (signUpError) throw signUpError
 
-      router.push("/auth/sign-up-success")
+      // If session exists, user is signed in directly (no email confirmation)
+      if (data.session) {
+        router.push("/dashboard")
+        return
+      }
+
+      // Fallback: sign in manually
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      })
+
+      if (signInError) throw signInError
+
+      router.push("/dashboard")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : lang === "ar" ? "حدث خطأ" : "An error occurred")
     } finally {
