@@ -16,19 +16,19 @@ interface WalletDisplayProps {
 
 const WALLET_DATA: Record<string, { addresses: string[] }> = {
   ERC20: {
-    addresses: ["0xc37556e9bcf424a85422bc8855fdaf5bf8006bc6", "0xdb7b5151fe18ea3ba8dd2506a889dbe38bffdff9"],
+    addresses: ["0xB02AAe8a62B907a7537C8374Ed748cf833935EeE", "0x4f6512635fce2d4bE0b35Bd4419727A2508555e2"],
   },
   TRX: {
-    addresses: ["TQfhXCP9gQRRkARg5PnwADgX7w9zdNhc88", "TVfARfmWMrbNEGepb6PSrTxEvapCRCgkr8"],
+    addresses: ["TJQQd4tRbJG6yvuYGSjFHEtTsUxAPsJRES", "TAncdT2GkVLYcidCBevbKQuBE8J6w6zCZS"],
   },
   SOL: {
-    addresses: ["DnYYRssGDBZxz2XnUTGnxUtaM82M22avoA6U27E2qYov", "3p2CMzY2ogn5B1UYqLXGes5ejUTWmrwxYh9jz3JYLQCV"],
+    addresses: ["FYEmS9MATAioJUfKkiVLRfYgw98nyzuJStofShGPbvVn", "7SBsSF9pFjebYhAXvmxhDTe9CXUe9WBcAhssmYSmXGnx"],
   },
   USDT_BEP20: {
-    addresses: ["0xc37556e9bcf424a85422bc8855fdaf5bf8006bc6", "0xdb7b5151fe18ea3ba8dd2506a889dbe38bffdff9"],
+    addresses: ["0xB02AAe8a62B907a7537C8374Ed748cf833935EeE", "0x4f6512635fce2d4bE0b35Bd4419727A2508555e2"],
   },
   USDT_TRC20: {
-    addresses: ["TQfhXCP9gQRRkARg5PnwADgX7w9zdNhc88", "TVfARfmWMrbNEGepb6PSrTxEvapCRCgkr8"],
+    addresses: ["TJQQd4tRbJG6yvuYGSjFHEtTsUxAPsJRES", "TAncdT2GkVLYcidCBevbKQuBE8J6w6zCZS"],
   },
 }
 
